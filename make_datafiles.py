@@ -62,24 +62,24 @@ def chunk_all():
     os.mkdir(chunks_dir)
   # Chunk the data
   for set_name in ['train', 'val', 'test']:
-    print( "Splitting %s data into chunks..." % set_name)
+    print "Splitting %s data into chunks..." % set_name
     chunk_file(set_name)
-  print( "Saved chunked data in %s" % chunks_dir)
+  print "Saved chunked data in %s" % chunks_dir
 
 
 def tokenize_stories(stories_dir, tokenized_stories_dir):
   """Maps a whole directory of .story files to a tokenized version using Stanford CoreNLP Tokenizer"""
-  print( "Preparing to tokenize %s to %s..." % (stories_dir, tokenized_stories_dir) )
+  print "Preparing to tokenize %s to %s..." % (stories_dir, tokenized_stories_dir) 
   stories = os.listdir(stories_dir)
   # make IO list file
-  print( "Making list of files to tokenize...")
+  print "Making list of files to tokenize..."
   with open("mapping.txt", "w") as f:
     for s in stories:
       f.write("%s \t %s\n" % (os.path.join(stories_dir, s), os.path.join(tokenized_stories_dir, s)))
   command = ['java', '-cp', 'stanford-corenlp-full-2018-10-05/stanford-corenlp-3.9.2.jar' ,'edu.stanford.nlp.process.PTBTokenizer', '-ioFileList', '-preserveLines', 'mapping.txt']
-  print( "Tokenizing %i files in %s and saving in %s..." % (len(stories), stories_dir, tokenized_stories_dir) )
+  print "Tokenizing %i files in %s and saving in %s..." % (len(stories), stories_dir, tokenized_stories_dir) 
   subprocess.call(command)
-  print( "Stanford CoreNLP Tokenizer has finished.")
+  print "Stanford CoreNLP Tokenizer has finished."
   os.remove("mapping.txt")
 
   # Check that the tokenized stories directory contains the same number of files as the original directory
@@ -87,7 +87,7 @@ def tokenize_stories(stories_dir, tokenized_stories_dir):
   num_tokenized = len(os.listdir(tokenized_stories_dir))
   if num_orig != num_tokenized:
     raise Exception("The tokenized stories directory %s contains %i files, but it should contain the same number as %s (which has %i files). Was there an error during tokenization?" % (tokenized_stories_dir, num_tokenized, stories_dir, num_orig))
-  print( "Successfully finished tokenizing %s to %s.\n" % (stories_dir, tokenized_stories_dir) )
+  print "Successfully finished tokenizing %s to %s.\n" % (stories_dir, tokenized_stories_dir) 
 
 
 def read_text_file(text_file):
@@ -176,7 +176,7 @@ def write_to_bin(makevocab=False):
     with open(out_file_corpora[corpus_type], 'wb') as writer:
       for idx,s in enumerate(corpora[corpus_type]):
         if idx % 1000 == 0:
-          print( 'number of stories written is ', idx)
+          print 'number of stories written is ', idx
 
         story_file = s
         # Get the strings to write to .bin file
@@ -201,15 +201,15 @@ def write_to_bin(makevocab=False):
           tokens = [t for t in tokens if t!=""] # remove empty
           vocab_counter.update(tokens)
 
-  print( "Finished writing file %s\n" % out_file)
+  print "Finished writing file %s\n" % out_file
 
   # write vocab to file
   if makevocab:
-    print( "Writing vocab file...")
+    print "Writing vocab file..."
     with open(os.path.join(finished_files_dir, "vocab"), 'w') as writer:
       for word, count in vocab_counter.most_common(VOCAB_SIZE):
         writer.write(word + ' ' + str(count) + '\n')
-    print( "Finished writing vocab file")
+    print "Finished writing vocab file"
 
 
 def check_num_stories(stories_dir, num_expected):
@@ -220,7 +220,7 @@ def check_num_stories(stories_dir, num_expected):
 
 if __name__ == '__main__':
   if len(sys.argv) != 2:
-    print( "USAGE: python make_datafiles.py <path_to_files>")
+    print "USAGE: python make_datafiles.py <path_to_files>"
     sys.exit()
   cnn_stories_dir = sys.argv[1]
 
