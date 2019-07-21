@@ -8,6 +8,7 @@ import collections
 import tensorflow as tf
 from tensorflow.core.example import example_pb2
 from os.path import join as pjoin
+import random
 
 
 dm_single_close_quote = u'\u2019' # unicode
