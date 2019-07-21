@@ -21,7 +21,7 @@ all_val_urls = "url_lists/all_val.txt"
 all_test_urls = "url_lists/all_test.txt"
 
 cnn_tokenized_stories_dir = "cnn_stories_tokenized"
-dm_tokenized_stories_dir = "dm_stories_tokenized"
+
 finished_files_dir = "finished_files"
 chunks_dir = os.path.join(finished_files_dir, "chunked")
 
