@@ -170,41 +170,41 @@ def write_to_bin(out_file, makevocab=False):
 
   out_file_corpora = {'train': os.path.join(finished_files_dir, "train.bin"), 'valid': os.path.join(finished_files_dir, "val.bin"), 'test': os.path.join(finished_files_dir, "test.bin")}
   corpora = {'train': train_files, 'valid': valid_files, 'test': test_files}
-    for corpus_type in ['train', 'valid', 'test']:
-      with open(out_file_corpora[corpus_type], 'wb') as writer:
-        for idx,s in enumerate(corpora[corpus_type]):
-          if idx % 1000 == 0:
-            print( 'number of stories written is ', idx)
+  for corpus_type in ['train', 'valid', 'test']:
+    with open(out_file_corpora[corpus_type], 'wb') as writer:
+      for idx,s in enumerate(corpora[corpus_type]):
+        if idx % 1000 == 0:
+          print( 'number of stories written is ', idx)
 
-          story_file = s
-          else:
-            print( "Error: Couldn't find tokenized story file %s in either tokenized story directories %s and %s. Was there an error during tokenization?" % (s, cnn_tokenized_stories_dir, dm_tokenized_stories_dir) )
-            # Check again if tokenized stories directories contain correct number of files
-            print( "Checking that the tokenized stories directories %s and %s contain correct number of files..." % (cnn_tokenized_stories_dir, dm_tokenized_stories_dir) )
+        story_file = s
+        else:
+          print( "Error: Couldn't find tokenized story file %s in either tokenized story directories %s and %s. Was there an error during tokenization?" % (s, cnn_tokenized_stories_dir, dm_tokenized_stories_dir) )
+          # Check again if tokenized stories directories contain correct number of files
+          print( "Checking that the tokenized stories directories %s and %s contain correct number of files..." % (cnn_tokenized_stories_dir, dm_tokenized_stories_dir) )
 
-            raise Exception("Tokenized stories directories %s and %s contain correct number of files but story file %s found in neither." % (cnn_tokenized_stories_dir, dm_tokenized_stories_dir, s))
+          raise Exception("Tokenized stories directories %s and %s contain correct number of files but story file %s found in neither." % (cnn_tokenized_stories_dir, dm_tokenized_stories_dir, s))
 
-          # Get the strings to write to .bin file
-          article, abstract = get_art_abs(story_file)
+        # Get the strings to write to .bin file
+        article, abstract = get_art_abs(story_file)
 
-          # Write to tf.Example
-          tf_example = example_pb2.Example()
-          tf_example.features.feature['article'].bytes_list.value.extend([article])
-          tf_example.features.feature['abstract'].bytes_list.value.extend([abstract])
-          tf_example_str = tf_example.SerializeToString()
-          str_len = len(tf_example_str)
-          writer.write(struct.pack('q', str_len))
-          writer.write(struct.pack('%ds' % str_len, tf_example_str))
+        # Write to tf.Example
+        tf_example = example_pb2.Example()
+        tf_example.features.feature['article'].bytes_list.value.extend([article])
+        tf_example.features.feature['abstract'].bytes_list.value.extend([abstract])
+        tf_example_str = tf_example.SerializeToString()
+        str_len = len(tf_example_str)
+        writer.write(struct.pack('q', str_len))
+        writer.write(struct.pack('%ds' % str_len, tf_example_str))
 
-          # Write the vocab to file, if applicable
-          if makevocab:
-            art_tokens = article.split(' ')
-            abs_tokens = abstract.split(' ')
-            abs_tokens = [t for t in abs_tokens if t not in [SENTENCE_START, SENTENCE_END]] # remove these tags from vocab
-            tokens = art_tokens + abs_tokens
-            tokens = [t.strip() for t in tokens] # strip
-            tokens = [t for t in tokens if t!=""] # remove empty
-            vocab_counter.update(tokens)
+        # Write the vocab to file, if applicable
+        if makevocab:
+          art_tokens = article.split(' ')
+          abs_tokens = abstract.split(' ')
+          abs_tokens = [t for t in abs_tokens if t not in [SENTENCE_START, SENTENCE_END]] # remove these tags from vocab
+          tokens = art_tokens + abs_tokens
+          tokens = [t.strip() for t in tokens] # strip
+          tokens = [t for t in tokens if t!=""] # remove empty
+          vocab_counter.update(tokens)
 
   print( "Finished writing file %s\n" % out_file)
 
@@ -239,9 +239,9 @@ if __name__ == '__main__':
   tokenize_stories(dm_stories_dir, dm_tokenized_stories_dir)
 
   # Read the tokenized stories, do a little postprocessing then write to bin files
-  write_to_bin(all_test_urls, os.path.join(finished_files_dir, "test.bin"))
-  write_to_bin(all_val_urls, os.path.join(finished_files_dir, "val.bin"))
-  write_to_bin(all_train_urls, os.path.join(finished_files_dir, "train.bin"), makevocab=True)
+  # write_to_bin(all_test_urls, os.path.join(finished_files_dir, "test.bin"))
+  # write_to_bin(all_val_urls, os.path.join(finished_files_dir, "val.bin"))
+  write_to_bin( makevocab=True)
 
   # Chunk the data. This splits each of train.bin, val.bin and test.bin into smaller chunks, each containing e.g. 1000 examples, and saves them in finished_files/chunks
   chunk_all()
