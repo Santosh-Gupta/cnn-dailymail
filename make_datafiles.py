@@ -178,6 +178,9 @@ def write_to_bin(url_file, out_file, makevocab=False):
 
       # Get the strings to write to .bin file
       article, abstract = get_art_abs(story_file)
+      
+      print('article is ', article)
+      print('abstract is ', abstract)
 
       # Write to tf.Example
       tf_example = example_pb2.Example()
