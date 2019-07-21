@@ -177,13 +177,6 @@ def write_to_bin(out_file, makevocab=False):
           print( 'number of stories written is ', idx)
 
         story_file = s
-        else:
-          print( "Error: Couldn't find tokenized story file %s in either tokenized story directories %s and %s. Was there an error during tokenization?" % (s, cnn_tokenized_stories_dir, dm_tokenized_stories_dir) )
-          # Check again if tokenized stories directories contain correct number of files
-          print( "Checking that the tokenized stories directories %s and %s contain correct number of files..." % (cnn_tokenized_stories_dir, dm_tokenized_stories_dir) )
-
-          raise Exception("Tokenized stories directories %s and %s contain correct number of files but story file %s found in neither." % (cnn_tokenized_stories_dir, dm_tokenized_stories_dir, s))
-
         # Get the strings to write to .bin file
         article, abstract = get_art_abs(story_file)
 
