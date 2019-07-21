@@ -224,12 +224,10 @@ if __name__ == '__main__':
 
   # Create some new directories
   if not os.path.exists(cnn_tokenized_stories_dir): os.makedirs(cnn_tokenized_stories_dir)
-  if not os.path.exists(dm_tokenized_stories_dir): os.makedirs(dm_tokenized_stories_dir)
   if not os.path.exists(finished_files_dir): os.makedirs(finished_files_dir)
 
   # Run stanford tokenizer on both stories dirs, outputting to tokenized stories directories
   tokenize_stories(cnn_stories_dir, cnn_tokenized_stories_dir)
-  tokenize_stories(dm_stories_dir, dm_tokenized_stories_dir)
 
   # Read the tokenized stories, do a little postprocessing then write to bin files
   # write_to_bin(all_test_urls, os.path.join(finished_files_dir, "test.bin"))
