@@ -148,7 +148,7 @@ def get_art_abs(story_file):
   return article, abstract
 
 
-def write_to_bin(out_file, makevocab=False):
+def write_to_bin(makevocab=False):
   """Reads the tokenized .story files corresponding to the urls listed in the url_file and writes them to a out_file."""
 
   if makevocab:
