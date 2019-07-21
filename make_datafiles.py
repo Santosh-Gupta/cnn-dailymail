@@ -203,7 +203,7 @@ def write_to_bin(makevocab=False):
           tokens = [t for t in tokens if t!=""] # remove empty
           vocab_counter.update(tokens)
 
-  print "Finished writing file %s\n" % out_file
+  print "Finished writing files"
 
   # write vocab to file
   if makevocab:
