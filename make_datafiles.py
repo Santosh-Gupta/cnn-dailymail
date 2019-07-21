@@ -73,7 +73,7 @@ def tokenize_stories(stories_dir, tokenized_stories_dir):
   with open("mapping.txt", "w") as f:
     for s in stories:
       f.write("%s \t %s\n" % (os.path.join(stories_dir, s), os.path.join(tokenized_stories_dir, s)))
-  command = ['java', 'edu.stanford.nlp.process.PTBTokenizer', '-ioFileList', '-preserveLines', 'mapping.txt']
+  command = ['java', '-cp', 'stanford-corenlp-full-2018-10-05/stanford-corenlp-3.9.2.jar' ,'edu.stanford.nlp.process.PTBTokenizer', '-ioFileList', '-preserveLines', 'mapping.txt']
   print "Tokenizing %i files in %s and saving in %s..." % (len(stories), stories_dir, tokenized_stories_dir)
   subprocess.call(command)
   print "Stanford CoreNLP Tokenizer has finished."
@@ -220,11 +220,6 @@ if __name__ == '__main__':
     print "USAGE: python make_datafiles.py <cnn_stories_dir> <dailymail_stories_dir>"
     sys.exit()
   cnn_stories_dir = sys.argv[1]
-  dm_stories_dir = sys.argv[2]
-
-  # Check the stories directories contain the correct number of .story files
-  check_num_stories(cnn_stories_dir, num_expected_cnn_stories)
-  check_num_stories(dm_stories_dir, num_expected_dm_stories)
 
   # Create some new directories
   if not os.path.exists(cnn_tokenized_stories_dir): os.makedirs(cnn_tokenized_stories_dir)
