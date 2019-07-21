@@ -9,6 +9,7 @@ import tensorflow as tf
 from tensorflow.core.example import example_pb2
 from os.path import join as pjoin
 import random
+import numpy as np
 
 
 dm_single_close_quote = u'\u2019' # unicode
@@ -158,7 +159,8 @@ def write_to_bin(makevocab=False):
 
   train_files, valid_files, test_files = [], [], []
   for f in glob.glob(pjoin(cnn_tokenized_stories_dir, '*')):
-    v = random.choices(['train', 'valid', 'test'], [0.7, 0.2, 0.1])
+#     v = random.choices(['train', 'valid', 'test'], [0.7, 0.2, 0.1])
+    v = np.random.choice(['valid','test','train'], 1, p=[0.2, 0.1, 0.7])
     if v[0] == 'train':
       # <70% of the time>
       train_files.append(f)
